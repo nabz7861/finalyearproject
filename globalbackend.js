@@ -8,7 +8,7 @@ app.use(bodyParser.json())
 // connect to MongoDB
 const MongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectID;
-var url = "mongodb://localhost:27017/fyp";
+var url = "mongodb+srv://Nab:Hussain@cluster0-fwz7m.mongodb.net/fyp";
 var dbo;
 MongoClient.connect(url, function(err, db) {
     if (err) throw err;

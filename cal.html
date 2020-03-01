@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://unpkg.com/vue"></script>    
+        <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>    
+
+    
+</head>
+<body>
+    
+        
+   <div id="app">
+
+          <button v-on:click='addCourse()' class="button1">book</button>
+       
+  <v-app>
+    <v-content>
+      <v-container>
+          
+        <div class="text-center title">Select a Date & Time</div>
+        <v-row justify="center">
+            <v-date-picker
+              v-model="date"
+              :allowed-dates="allowedDates"
+              class="mt-4"
+              min="2019-10-10"
+              max="2022-03-20"
+            ></v-date-picker>
+          <v-slide-y-transition>
+            <v-col cols=2 v-show="date !== null">
+              <template v-for="allowedTime in allowedTimes">
+                <v-btn
+                       
+                  @click="setTime(allowedTime)"
+                  class="my-2"
+                  :outlined="allowedTime !== time"
+                  block
+                  x-large
+                  color="primary"
+                >{{ allowedTime }}</v-btn>
+              </template>
+            </v-col>
+          </v-slide-y-transition>
+        </v-row>
+      </v-container>
+    </v-content>
+  </v-app>
+       
+       
+       
+       
+       
+       
+       
+       
+       
+                       <h3>Lastest logged user</h3>
+<div id="courseApp">
+<button @click="loadCourse">Display all courses</button>
+<div v-for="course in courses">
+<ul>
+<li v-for="(value, key) in course">
+{{key}}: {{value}}
+</li>
+</ul>
+</div>
+</div>
+</div> 
+    
+  
+    
+    <script>
+        const API = "http://localhost:3000"; 
+
+        
+
+
+    // Looking for the v1.5 template?
+// https://codepen.io/johnjleider/pen/GVoaNe
+
+new Vue({
+  el: '#app',
+  vuetify: new Vuetify(),
+  data: () => ({
+    date: null,
+  dbTable:[],
+    time: null,
+    
+    allowedTimes: ['8:30 am','9:00am','10:30am','1:30pm','3:30 pm']
+  }),
+  
+  methods: {
+      
+      allowedDates: val => parseInt ,setTime(time) {
+      this.time = time
+      
+      console.log(time)
+       console.log(this.date)
+      
+    },
+      
+    addCourse: function() {
+
+  fetch(API+'/booked/'+'datetime', {
+  headers: {  "Content-Type": "application/json; charset=utf-8" },
+  method: 'post',
+  body: JSON.stringify({
+        date: this.time,
+        time: this.date,
+        
+    })
+  }).then((res)=>{
+    window.location.reload()
+  }).catch((err)=>{
+      console.log(err)
+  })
+},
+    
+    
+ 
+created() {
+//fetching all courses from database on page load
+fetch(API+'/booked/'+'datetime', {
+  method:'GET',
+  headers: {  "Content-Type": "application/json; charset=utf-8" },
+}).then(res => res.json())
+  .then(jsonData => {
+          jsonData.forEach(element => {
+            let newItem = {
+            id: element._id,
+           topic: element.date,
+           location: element.time
+        
+                
+        
+        };
+
+        this.dbTable.push(newItem);
+       
+          });
+  })
+    .catch((err) => {
+    console.log(err)
+})
+},
+
+      
+      
+      
+    },
+})
+    
+    </script>
+    
+    
+        
+
+</body>
+</html>
